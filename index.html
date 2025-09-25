@@ -1,1 +1,1191 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chama bit web</title>
+  <script src='//libtl.com/sdk.js' data-zone='9932684' data-sdk='show_9932684'></script>  <style>
+      :root {
+          /* Enhanced color palette */
+          --primary: #7c4dff;
+          --primary-dark: #5e35b1;
+          --primary-light: #b47cff;
+          --secondary: #00e5ff;
+          --secondary-dark: #00b8d4;
+          --accent: #ffca28;
+          --accent-dark: #ffb300;
+          --dark: #0f0f1a;
+          --darker: #070717;
+          --light: #f7f7fb;
+          --card-bg: #0f1226;
+          --card-hover: #141936;
+          --muted: #9aa4c0;
+          --success: #00c853;
+          --danger: #ff3d00;
+          --warning: #ff9100;
+      }
+
+      * { 
+          margin: 0; 
+          padding: 0; 
+          box-sizing: border-box; 
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      }
+
+      body {
+          background: linear-gradient(135deg, var(--darker), #121226 60%);
+          color: var(--light);
+          min-height: 100vh;
+          padding: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          overflow-x: hidden;
+      }
+
+      body::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; width: 100%; height: 100%;
+          background:
+              radial-gradient(circle at 15% 20%, rgba(124,77,255,0.08) 0%, transparent 18%),
+              radial-gradient(circle at 85% 80%, rgba(0,229,255,0.06) 0%, transparent 20%),
+              radial-gradient(circle at 50% 50%, rgba(255,202,40,0.03) 0%, transparent 30%);
+          z-index: -1;
+      }
+
+      .container { 
+          width: 100%; 
+          max-width: 780px; 
+          background: var(--card-bg); 
+          border-radius: 20px; 
+          overflow: hidden; 
+          box-shadow: 0 20px 50px rgba(2,6,23,0.8); 
+          border: 1px solid rgba(255,255,255,0.05);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+      .container:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 25px 60px rgba(2,6,23,0.9);
+      }
+
+      .header { 
+          background: linear-gradient(90deg, var(--primary), var(--secondary)); 
+          padding: 30px 25px; 
+          text-align: center; 
+          position: relative; 
+          overflow: hidden; 
+      }
+      
+      .header::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: linear-gradient(90deg, var(--accent), transparent);
+      }
+      
+      .header h1 { 
+          font-size: 28px; 
+          font-weight: 800; 
+          letter-spacing: .5px; 
+          position: relative; 
+          color: #fff; 
+          text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      }
+      
+      .developer { 
+          display: inline-block; 
+          background: rgba(0,0,0,0.3); 
+          padding: 8px 16px; 
+          border-radius: 25px; 
+          font-size: 13px; 
+          margin-top: 15px; 
+          cursor: pointer; 
+          transition: all .3s ease; 
+          color: #fff; 
+          border: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      .developer:hover { 
+          transform: translateY(-3px); 
+          background: rgba(0,0,0,0.4);
+          box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      }
+
+      .content { 
+          display: grid; 
+          grid-template-columns: 1fr 400px; 
+          gap: 20px; 
+          padding: 25px; 
+      }
+
+      .left { padding-right: 8px; }
+      .right { padding-left: 8px; }
+
+      .card { 
+          background: rgba(255,255,255,0.03); 
+          border-radius: 14px; 
+          padding: 18px; 
+          margin-bottom: 16px; 
+          border: 1px solid rgba(255,255,255,0.05);
+          transition: all 0.3s ease;
+      }
+      
+      .card:hover {
+          background: rgba(255,255,255,0.04);
+          border-color: rgba(255,255,255,0.08);
+          transform: translateY(-2px);
+      }
+
+      .user-info { text-align: left; position: relative; }
+      .user-info p { font-size: 14px; color: var(--muted); }
+      .user-info .top { display: flex; justify-content: space-between; align-items: center; }
+      .user-badge { 
+          background: linear-gradient(90deg,var(--accent),var(--accent-dark)); 
+          color: #111; 
+          padding: 8px 12px; 
+          border-radius: 14px; 
+          font-weight: 800; 
+          font-size: 13px; 
+          box-shadow: 0 4px 10px rgba(255,202,40,0.3);
+      }
+
+      .stats { display:flex; gap:12px; margin-top: 15px; }
+      .stat-card { 
+          flex:1; 
+          padding: 15px; 
+          border-radius: 12px; 
+          background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); 
+          text-align:center;
+          transition: transform 0.3s ease;
+      }
+      
+      .stat-card:hover {
+          transform: translateY(-3px);
+      }
+      
+      .stat-card h3{font-size:14px;color:var(--muted); margin-bottom: 5px;}
+      .stat-card .value{font-size:24px;font-weight:800;color:var(--secondary); text-shadow: 0 2px 4px rgba(0,229,255,0.3);}
+
+      .progress-container { margin: 15px 0; }
+      .progress-label { display:flex; justify-content:space-between; font-size:14px; color: var(--muted); margin-bottom:10px; }
+      .progress-bar { 
+          height: 14px; 
+          background: rgba(255,255,255,0.03); 
+          border-radius: 10px; 
+          overflow:hidden; 
+          position: relative;
+      }
+      
+      .progress-bar::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+          animation: shimmer 2s infinite linear;
+      }
+      
+      .progress-fill { 
+          height:100%; 
+          width: 0%; 
+          background: linear-gradient(90deg,var(--primary),var(--secondary)); 
+          transition: width .5s ease;
+          position: relative;
+          z-index: 1;
+      }
+
+      .buttons { display:flex; gap:12px; margin-top:15px; flex-wrap: wrap; }
+
+      .btn { 
+          padding: 14px 18px; 
+          border-radius: 14px; 
+          font-weight:700; 
+          border:none; 
+          cursor:pointer; 
+          background: linear-gradient(90deg,var(--primary),var(--secondary)); 
+          color: #fff; 
+          box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+      }
+      
+      .btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+          transition: left 0.5s;
+      }
+      
+      .btn:hover::before {
+          left: 100%;
+      }
+      
+      .btn:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 15px 25px rgba(0,0,0,0.4);
+      }
+      
+      .btn:active {
+          transform: translateY(1px);
+      }
+      
+      .btn.secondary { background: linear-gradient(90deg,var(--secondary-dark),var(--primary-dark)); }
+      .btn.ghost { background: transparent; border: 1px solid rgba(255,255,255,0.08); color: var(--muted); }
+      .btn.small { padding: 10px 14px; font-size: 14px; border-radius: 10px; }
+      .btn.success { background: linear-gradient(90deg, var(--success), #00e676); }
+      .btn.warning { background: linear-gradient(90deg, var(--warning), #ffab00); }
+      .btn.danger { background: linear-gradient(90deg, var(--danger), #ff6d00); }
+      
+      .btn:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+          transform: none !important;
+      }
+
+      .ad-container { text-align:center; padding: 16px; }
+      .ad-label { font-size:13px;color:var(--muted); margin-bottom:12px; letter-spacing: 0.5px; }
+      .ad-status { margin-top: 10px; min-height: 28px; color: var(--muted); }
+
+      .website-section h3{ color: var(--secondary); margin-bottom: 15px; font-size: 18px; }
+
+      /* Withdraw section */
+      .withdraw-section { display:flex; flex-direction:column; gap:12px; }
+      .withdraw-options { display:flex; gap:10px; flex-wrap:wrap; }
+      .withdraw-options .quick { 
+          background: linear-gradient(90deg,var(--primary),var(--secondary)); 
+          padding:10px 14px; 
+          border-radius:12px; 
+          cursor:pointer; 
+          font-weight:700;
+          transition: all 0.2s ease;
+          flex: 1;
+          text-align: center;
+          min-width: 70px;
+      }
+      
+      .withdraw-options .quick:hover {
+          transform: scale(1.05);
+      }
+      
+      .withdraw-form { display:flex; gap:10px; align-items:center; }
+      .withdraw-form input[type="number"]{ 
+          flex:1; 
+          padding:12px; 
+          border-radius:12px; 
+          border:1px solid rgba(255,255,255,0.08); 
+          background: rgba(255,255,255,0.03); 
+          color:var(--light);
+          font-size: 14px;
+          transition: all 0.3s ease;
+      }
+      
+      .withdraw-form input[type="number"]:focus {
+          outline: none;
+          border-color: var(--primary);
+          box-shadow: 0 0 0 2px rgba(124,77,255,0.2);
+      }
+      
+      .withdraw-method { 
+          padding:10px 12px; 
+          border-radius:12px; 
+          background: rgba(255,255,255,0.03); 
+          border:1px solid rgba(255,255,255,0.08); 
+          color:var(--muted);
+          font-size: 14px;
+      }
+
+      .history-list { max-height:220px; overflow:auto; padding-right:8px; }
+      .history-list::-webkit-scrollbar { width: 6px; }
+      .history-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 3px; }
+      .history-list::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+      .history-list::-webkit-scrollbar-thumb:hover { background: var(--primary-light); }
+      
+      .history-item { 
+          padding:12px; 
+          border-radius:10px; 
+          margin-bottom:10px; 
+          background: rgba(255,255,255,0.02); 
+          font-size:14px;
+          transition: all 0.2s ease;
+          border-left: 3px solid transparent;
+      }
+      
+      .history-item:hover {
+          background: rgba(255,255,255,0.04);
+          border-left-color: var(--primary);
+          transform: translateX(3px);
+      }
+      
+      .history-item .meta { color:var(--muted); font-size:12px; margin-top:6px; }
+
+      .ad-notification, .bonus-notification { 
+          position: fixed; 
+          left: 50%; 
+          transform: translateX(-50%); 
+          z-index: 9999; 
+          border-radius: 12px; 
+          padding: 15px 22px; 
+          font-weight:700; 
+          display:none;
+          box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+          animation: slideDown 0.5s ease;
+      }
+      
+      .ad-notification { 
+          top:25px; 
+          background: rgba(15,18,38,0.95); 
+          color:#fff; 
+          border: 1px solid rgba(255,255,255,0.1);
+          backdrop-filter: blur(10px);
+      }
+      
+      .bonus-notification { 
+          top:80px; 
+          background: linear-gradient(90deg,var(--accent),var(--accent-dark)); 
+          color:#111; 
+          border: 1px solid rgba(255,202,40,0.3);
+      }
+
+      /* Modal */
+      .modal-backdrop { 
+          position: fixed; 
+          inset:0; 
+          background: rgba(0,0,0,0.7); 
+          display:none; 
+          align-items:center; 
+          justify-content:center; 
+          z-index:10000;
+          backdrop-filter: blur(5px);
+          animation: fadeIn 0.3s ease;
+      }
+      
+      .modal { 
+          background: linear-gradient(180deg, #0f1226, #0b0c18); 
+          border-radius:16px; 
+          padding:25px; 
+          width: 420px; 
+          max-width: 90vw;
+          border:1px solid rgba(255,255,255,0.08);
+          box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+          animation: scaleIn 0.3s ease;
+      }
+      
+      .modal h4{ margin-bottom:10px; font-size: 20px; color: var(--secondary); }
+      .modal .row{ display:flex; gap:10px; margin-top: 15px; }
+
+      /* Achievement badges */
+      .achievements { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+      .achievement-badge { 
+          background: rgba(255,255,255,0.03); 
+          border-radius: 20px; 
+          padding: 8px 12px; 
+          font-size: 12px; 
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          border: 1px solid rgba(255,255,255,0.05);
+      }
+      
+      .achievement-badge.unlocked { background: rgba(124,77,255,0.1); border-color: rgba(124,77,255,0.3); }
+      .achievement-badge .icon { color: var(--accent); }
+
+      /* responsive */
+      @media (max-width: 900px) {
+          .content { grid-template-columns: 1fr; gap: 15px; }
+          .left, .right { padding: 0; }
+          .container { max-width: 95vw; }
+          .stats { flex-direction: column; }
+          .buttons { flex-direction: column; }
+          .btn { width: 100%; }
+      }
+      
+      /* Animations */
+      @keyframes spin {
+          to { transform: rotate(360deg); }
+      }
+      
+      @keyframes shimmer {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+      }
+      
+      @keyframes slideDown {
+          from { top: -100px; opacity: 0; }
+          to { top: 25px; opacity: 1; }
+      }
+      
+      @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+      }
+      
+      @keyframes scaleIn {
+          from { transform: scale(0.9); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+      }
+      
+      @keyframes pulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+          100% { transform: scale(1); }
+      }
+      
+      .pulse {
+          animation: pulse 0.5s ease;
+      }
+      
+      /* Loading spinner */
+      .spinner {
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          border: 3px solid rgba(255,255,255,0.1);
+          border-top-color: var(--secondary);
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin-right: 10px;
+          vertical-align: middle;
+      }
+  </style>
+</head>
+<body>
+    <div class="ad-notification" id="ad-notification"></div>
+    <div class="bonus-notification" id="bonus-notification"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Premium Ad Reward System — Enhanced</h1>
+            <div class="developer" onclick="window.location.href='https://t.me/TGJOOBBOTOWNER'">Developer by Anonymous</div>
+        </div>
+
+        <div class="content">
+            <div class="left">
+                <div class="card user-info">
+                    <div class="top">
+                        <div>
+                            <p style="font-size:14px;color:var(--muted)">Welcome back,</p>
+                            <h2 id="user-name">User123</h2>
+                            <p id="user-id" style="font-size:13px;color:var(--muted);">#USR-7694</p>
+                        </div>
+                        <div class="user-badge" id="user-tier">VIP</div>
+                    </div>
+
+                    <div class="stats">
+                        <div class="stat-card">
+                            <h3>Watched Ads</h3>
+                            <div class="value" id="watched-ads">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Earned Points</h3>
+                            <div class="value" id="earned-points">0.00</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Session Time</h3>
+                            <div class="value" id="session-time">0:00</div>
+                        </div>
+                    </div>
+
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Progress to Bonus (Every 10 ads)</span>
+                            <span id="ads-progress">0/10</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+                    </div>
+                    
+                    <div class="achievements" id="achievements">
+                        <!-- Achievement badges will be added here dynamically -->
+                    </div>
+
+                    <div class="buttons">
+                        <button class="btn" id="watch-ad-btn" onclick="watchAd()">
+                            <span class="spinner" id="ad-spinner" style="display:none;"></span>
+                            Watch Ad (+0.50)
+                        </button>
+                        <button class="btn secondary" id="auto-ad-btn" onclick="toggleAutoAds()">Start Auto Ads</button>
+                        <button class="btn ghost small" onclick="showStatsModal()">View Stats</button>
+                        <button class="btn ghost small" onclick="resetData()">Reset Data</button>
+                    </div>
+
+                    <div class="ad-container card" style="margin-top:15px;">
+                        <div class="ad-label">MONETAG INTERSTITIAL AD</div>
+                        <div class="ad-status" id="ad-status"></div>
+                    </div>
+                </div>
+
+                <div class="card website-section">
+                    <h3>Reward History</h3>
+                    <div id="reward-history" class="history-list"></div>
+                </div>
+            </div>
+
+            <div class="right">
+                <div class="card">
+                    <h3>Withdraw (Simulated)</h3>
+                    <p style="font-size:14px;color:var(--muted);margin-bottom:10px;">Simulated withdraw options — for demonstration only.</p>
+
+                    <div class="withdraw-section">
+                        <div class="withdraw-options">
+                            <div class="quick" onclick="quickAmt(1)">₨ 1.00</div>
+                            <div class="quick" onclick="quickAmt(5)">₨ 5.00</div>
+                            <div class="quick" onclick="quickAmt(10)">₨ 10.00</div>
+                            <div class="quick" onclick="quickAmt(20)">₨ 20.00</div>
+                        </div>
+
+                        <div class="withdraw-form">
+                            <input type="number" id="withdraw-amount" min="0.5" step="0.5" placeholder="Enter amount e.g. 2.5" />
+                            <select id="withdraw-method" class="withdraw-method">
+                                <option value="mobile">Mobile Wallet</option>
+                                <option value="bank">Bank Transfer</option>
+                                <option value="voucher">Voucher Code</option>
+                                <option value="crypto">Crypto Wallet</option>
+                            </select>
+                            <button class="btn small success" id="withdraw-btn" onclick="performWithdraw()">Withdraw</button>
+                        </div>
+
+                        <div style="font-size:14px;color:var(--muted);margin-top:10px;">
+                            Balance: <strong id="balance-txt">0.00</strong> points
+                            <span id="daily-limit" style="float:right;font-size:12px;">Daily limit: ₨ 100.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Withdraw History</h3>
+                    <div id="withdraw-history" class="history-list"></div>
+                </div>
+
+                <div class="card">
+                    <h3>Quick Tips</h3>
+                    <ul style="margin-top:10px;color:var(--muted);font-size:14px;line-height:1.6;padding-left:20px;">
+                        <li>Points are simulated and stored locally in your browser.</li>
+                        <li>Withdraws are simulated — no real money is involved.</li>
+                        <li>Earn bonuses every 10 ads watched.</li>
+                        <li>Use Auto Ads for automatic ad watching.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div style="padding:15px 25px;border-top:1px solid rgba(255,255,255,0.05);text-align:center;color:var(--muted);font-size:14px;">
+            Secured by Firebase • Demo Mode • <span id="version">v2.1</span>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-backdrop" id="modal-backdrop">
+        <div class="modal" id="modal">
+            <h4 id="modal-title">Processing Withdraw</h4>
+            <p id="modal-msg" style="color:var(--muted);margin-bottom:15px;">Please wait while we process your simulated withdraw.</p>
+            <div id="modal-body">
+                <div class="progress-bar" style="height:8px; margin:10px 0;">
+                    <div class="progress-fill" id="modal-progress" style="width:0%"></div>
+                </div>
+                <p id="modal-status" style="text-align:center;font-size:14px;">Initializing...</p>
+            </div>
+            <div style="display:flex;justify-content:flex-end;margin-top:15px;gap:10px;">
+                <button class="btn ghost small" onclick="closeModal()">Cancel</button>
+                <button class="btn small secondary" id="modal-action-btn" style="display:none;">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced Constants
+        const POINTS_PER_AD = 0.50;
+        const ADS_FOR_BONUS = 10;
+        const BONUS_POINTS = 1.00;
+        const DAILY_WITHDRAW_LIMIT = 100.00;
+        const VERSION = "2.1";
+
+        // Enhanced State
+        let watchedAdsCount = 0;
+        let earnedPoints = 0;
+        let autoAdInterval = null;
+        let isWatchingAd = false;
+        let sessionStartTime = null;
+        let sessionTimer = null;
+        let todayWithdrawals = 0;
+        let achievements = {
+            firstAd: false,
+            tenAds: false,
+            fiftyAds: false,
+            hundredAds: false,
+            firstWithdraw: false,
+            bigWithdraw: false
+        };
+
+        // DOM Elements
+        const watchedAdsEl = document.getElementById('watched-ads');
+        const earnedPointsEl = document.getElementById('earned-points');
+        const adsProgressEl = document.getElementById('ads-progress');
+        const progressFillEl = document.getElementById('progress-fill');
+        const adNotificationEl = document.getElementById('ad-notification');
+        const bonusNotificationEl = document.getElementById('bonus-notification');
+        const adStatusEl = document.getElementById('ad-status');
+        const rewardHistoryEl = document.getElementById('reward-history');
+        const withdrawHistoryEl = document.getElementById('withdraw-history');
+        const balanceTxt = document.getElementById('balance-txt');
+        const sessionTimeEl = document.getElementById('session-time');
+        const achievementsEl = document.getElementById('achievements');
+        const adSpinner = document.getElementById('ad-spinner');
+        const userTierEl = document.getElementById('user-tier');
+        const versionEl = document.getElementById('version');
+
+        // Initialize Enhanced App
+        function initApp(){
+            // Load data from localStorage
+            watchedAdsCount = parseInt(localStorage.getItem('watchedAdsCount')) || 0;
+            earnedPoints = parseFloat(localStorage.getItem('earnedPoints')) || 0;
+            todayWithdrawals = parseFloat(localStorage.getItem('todayWithdrawals')) || 0;
+            
+            // Load achievements
+            const savedAchievements = localStorage.getItem('achievements');
+            if (savedAchievements) {
+                achievements = JSON.parse(savedAchievements);
+            }
+            
+            // Generate or load user info
+            document.getElementById('user-id').textContent = '#' + (localStorage.getItem('userId') || generateUserId());
+            document.getElementById('user-name').textContent = localStorage.getItem('userName') || generateUserName();
+            
+            // Load histories
+            rewardHistoryEl.innerHTML = localStorage.getItem('rewardHistory') || '<div class="history-item">No rewards yet. Watch your first ad!</div>';
+            withdrawHistoryEl.innerHTML = localStorage.getItem('withdrawHistory') || '<div class="history-item">No withdrawals yet.</div>';
+            
+            // Set version
+            versionEl.textContent = `v${VERSION}`;
+            
+            // Start session timer
+            startSessionTimer();
+            
+            // Update UI
+            updateUI();
+            updateAchievements();
+            updateUserTier();
+        }
+
+        function generateUserId(){
+            const newUserId = 'USR-' + Math.floor(10000 + Math.random() * 90000);
+            localStorage.setItem('userId', newUserId);
+            return newUserId;
+        }
+        
+        function generateUserName(){
+            const names = ['AdMaster', 'PointCollector', 'RewardHunter', 'BonusSeeker', 'AdWatcher'];
+            const name = names[Math.floor(Math.random() * names.length)] + Math.floor(1000 + Math.random() * 9000);
+            localStorage.setItem('userName', name);
+            return name;
+        }
+
+        function startSessionTimer() {
+            sessionStartTime = new Date();
+            sessionTimer = setInterval(() => {
+                const now = new Date();
+                const diff = Math.floor((now - sessionStartTime) / 1000);
+                const minutes = Math.floor(diff / 60);
+                const seconds = diff % 60;
+                sessionTimeEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function updateUI(){
+            watchedAdsEl.textContent = watchedAdsCount;
+            earnedPointsEl.textContent = earnedPoints.toFixed(2);
+            balanceTxt.textContent = earnedPoints.toFixed(2);
+
+            const progress = (watchedAdsCount % ADS_FOR_BONUS);
+            const progressPercent = (progress / ADS_FOR_BONUS) * 100;
+            adsProgressEl.textContent = `${progress}/${ADS_FOR_BONUS}`;
+            progressFillEl.style.width = progressPercent + '%';
+
+            // Save to localStorage
+            localStorage.setItem('watchedAdsCount', watchedAdsCount);
+            localStorage.setItem('earnedPoints', earnedPoints);
+            localStorage.setItem('todayWithdrawals', todayWithdrawals);
+            
+            // Update achievements if needed
+            checkAchievements();
+        }
+        
+        function updateUserTier() {
+            let tier = "Basic";
+            let color = "linear-gradient(90deg, #9e9e9e, #616161)";
+            
+            if (watchedAdsCount >= 100) {
+                tier = "Elite";
+                color = "linear-gradient(90deg, #ffca28, #ffb300)";
+            } else if (watchedAdsCount >= 50) {
+                tier = "Pro";
+                color = "linear-gradient(90deg, #7c4dff, #5e35b1)";
+            } else if (watchedAdsCount >= 10) {
+                tier = "VIP";
+                color = "linear-gradient(90deg, #00e5ff, #00b8d4)";
+            }
+            
+            userTierEl.textContent = tier;
+            userTierEl.style.background = color;
+        }
+        
+        function checkAchievements() {
+            // First ad achievement
+            if (watchedAdsCount >= 1 && !achievements.firstAd) {
+                achievements.firstAd = true;
+                showAchievementNotification("First Ad Watched!", "You've watched your first ad!");
+            }
+            
+            // 10 ads achievement
+            if (watchedAdsCount >= 10 && !achievements.tenAds) {
+                achievements.tenAds = true;
+                showAchievementNotification("Ad Enthusiast!", "You've watched 10 ads!");
+            }
+            
+            // 50 ads achievement
+            if (watchedAdsCount >= 50 && !achievements.fiftyAds) {
+                achievements.fiftyAds = true;
+                showAchievementNotification("Ad Master!", "You've watched 50 ads!");
+            }
+            
+            // 100 ads achievement
+            if (watchedAdsCount >= 100 && !achievements.hundredAds) {
+                achievements.hundredAds = true;
+                showAchievementNotification("Ad Legend!", "You've watched 100 ads!");
+            }
+            
+            localStorage.setItem('achievements', JSON.stringify(achievements));
+            updateAchievements();
+        }
+        
+        function updateAchievements() {
+            achievementsEl.innerHTML = '';
+            
+            const achievementList = [
+                { id: 'firstAd', name: 'First Ad', icon: '👏', unlocked: achievements.firstAd },
+                { id: 'tenAds', name: '10 Ads', icon: '🔥', unlocked: achievements.tenAds },
+                { id: 'fiftyAds', name: '50 Ads', icon: '⭐', unlocked: achievements.fiftyAds },
+                { id: 'hundredAds', name: '100 Ads', icon: '🏆', unlocked: achievements.hundredAds },
+                { id: 'firstWithdraw', name: 'First Withdraw', icon: '💰', unlocked: achievements.firstWithdraw },
+                { id: 'bigWithdraw', name: 'Big Withdraw', icon: '💎', unlocked: achievements.bigWithdraw }
+            ];
+            
+            achievementList.forEach(achievement => {
+                const badge = document.createElement('div');
+                badge.className = `achievement-badge ${achievement.unlocked ? 'unlocked' : ''}`;
+                badge.innerHTML = `<span class="icon">${achievement.icon}</span> ${achievement.name}`;
+                achievementsEl.appendChild(badge);
+            });
+        }
+        
+        function showAchievementNotification(title, message) {
+            const notification = document.createElement('div');
+            notification.className = 'ad-notification';
+            notification.style.background = 'linear-gradient(90deg, #7c4dff, #00e5ff)';
+            notification.innerHTML = `🎉 ${title} - ${message} 🎉`;
+            notification.style.display = 'block';
+            notification.style.top = '140px';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+                document.body.removeChild(notification);
+            }, 3000);
+        }
+
+        // Enhanced Ad handling
+        function watchAd(){
+            if (isWatchingAd) return;
+            isWatchingAd = true;
+            adSpinner.style.display = 'inline-block';
+            document.getElementById('watch-ad-btn').disabled = true;
+            adStatusEl.innerHTML = 'Loading ad...';
+
+            // Simulate ad loading with more realistic steps
+            setTimeout(() => {
+                adStatusEl.innerHTML = 'Ad loaded. Starting...';
+            }, 800);
+            
+            setTimeout(() => {
+                adStatusEl.innerHTML = 'Ad playing...';
+            }, 1600);
+
+            if (typeof show_9791411 === 'function'){
+                show_9791411().then(()=>{ 
+                    completeAdWatch(); 
+                }).catch(()=>{ 
+                    simulateAdWatch(); 
+                });
+            } else {
+                simulateAdWatch();
+            }
+        }
+        
+        function simulateAdWatch(){ 
+            setTimeout(()=>{ 
+                completeAdWatch(); 
+            }, 3000); 
+        }
+
+        function completeAdWatch(){
+            watchedAdsCount++;
+            let pointsEarned = POINTS_PER_AD;
+            let bonus = 0;
+            
+            // Check for bonus
+            if (watchedAdsCount % ADS_FOR_BONUS === 0){ 
+                bonus = BONUS_POINTS; 
+                earnedPoints += bonus; 
+                showBonusNotification(); 
+            }
+            
+            earnedPoints += pointsEarned;
+
+            addToRewardHistory(pointsEarned, bonus);
+            updateUI();
+            showAdNotification('Ad completed! +' + pointsEarned.toFixed(2) + (bonus>0? ' (+'+bonus.toFixed(2)+' bonus)':'') );
+
+            adStatusEl.innerHTML = '<span style="color:var(--success)">Ad completed successfully!</span>';
+            adSpinner.style.display = 'none';
+            document.getElementById('watch-ad-btn').disabled = false;
+            isWatchingAd = false;
+            
+            setTimeout(()=>{ 
+                adStatusEl.textContent = ''; 
+            }, 3000);
+        }
+
+        function addToRewardHistory(points, bonus){
+            const now = new Date();
+            const time = now.toLocaleTimeString();
+            const date = now.toLocaleDateString();
+            
+            // Remove placeholder if exists
+            if (rewardHistoryEl.innerHTML.includes('No rewards yet')) {
+                rewardHistoryEl.innerHTML = '';
+            }
+            
+            let itm = document.createElement('div'); 
+            itm.className = 'history-item';
+            itm.innerHTML = `
+                <div><strong>${date} ${time}</strong></div>
+                <div>+${points.toFixed(2)} points ${bonus>0? '<span style="color:var(--accent);">(+'+bonus.toFixed(2)+' bonus)</span>':''}</div>
+            `;
+            rewardHistoryEl.prepend(itm);
+            truncateList(rewardHistoryEl, 10);
+            localStorage.setItem('rewardHistory', rewardHistoryEl.innerHTML);
+        }
+
+        function truncateList(container, limit){
+            const items = container.querySelectorAll('.history-item');
+            if (items.length > limit){ 
+                for (let i = limit; i < items.length; i++) {
+                    if (items[i]) items[i].remove();
+                }
+            }
+        }
+
+        // Enhanced Auto ads with toggle
+        function toggleAutoAds(){
+            if (autoAdInterval) {
+                stopAutoAds();
+            } else {
+                startAutoAds();
+            }
+        }
+        
+        function startAutoAds(){ 
+            if (autoAdInterval) clearInterval(autoAdInterval); 
+            autoAdInterval = setInterval(()=>{ 
+                if(!isWatchingAd) watchAd(); 
+            }, 15000); // Reduced to 15 seconds for better demo
+            
+            document.getElementById('auto-ad-btn').textContent = 'Stop Auto Ads';
+            document.getElementById('auto-ad-btn').classList.remove('secondary');
+            document.getElementById('auto-ad-btn').classList.add('warning');
+            showAdNotification('Auto ads started - watching every 15 seconds');
+        }
+        
+        function stopAutoAds() {
+            if (autoAdInterval) {
+                clearInterval(autoAdInterval);
+                autoAdInterval = null;
+            }
+            document.getElementById('auto-ad-btn').textContent = 'Start Auto Ads';
+            document.getElementById('auto-ad-btn').classList.remove('warning');
+            document.getElementById('auto-ad-btn').classList.add('secondary');
+            showAdNotification('Auto ads stopped');
+        }
+
+        // Notifications
+        function showAdNotification(msg){ 
+            adNotificationEl.textContent = msg; 
+            adNotificationEl.style.display='block'; 
+            setTimeout(()=>{ 
+                adNotificationEl.style.display='none'; 
+            }, 3000); 
+        }
+        
+        function showBonusNotification(){ 
+            bonusNotificationEl.innerHTML = '🎉 Bonus! +' + BONUS_POINTS.toFixed(2) + ' points for reaching ' + ADS_FOR_BONUS + ' ads! 🎉'; 
+            bonusNotificationEl.style.display='block'; 
+            setTimeout(()=>{ 
+                bonusNotificationEl.style.display='none'; 
+            }, 4000); 
+        }
+
+        // Enhanced Withdraw logic
+        function quickAmt(val){ 
+            document.getElementById('withdraw-amount').value = val.toFixed(2); 
+        }
+        
+        function performWithdraw(){
+            const amt = parseFloat(document.getElementById('withdraw-amount').value) || 0;
+            const method = document.getElementById('withdraw-method').value;
+            
+            if (amt <= 0){ 
+                showAdNotification('Please enter an amount greater than 0');
+                return; 
+            }
+            
+            if (amt > earnedPoints){ 
+                showAdNotification('Insufficient balance for this withdraw');
+                return; 
+            }
+            
+            if (todayWithdrawals + amt > DAILY_WITHDRAW_LIMIT) {
+                showAdNotification('Daily withdrawal limit exceeded');
+                return;
+            }
+
+            // Show modal and simulate processing with progress
+            openModal('Processing Withdraw', `Sending ₨ ${amt.toFixed(2)} via ${getMethodName(method)}...`);
+            simulateWithdrawProcess(amt, method);
+        }
+        
+        function getMethodName(method) {
+            const methods = {
+                'mobile': 'Mobile Wallet',
+                'bank': 'Bank Transfer',
+                'voucher': 'Voucher Code',
+                'crypto': 'Crypto Wallet'
+            };
+            return methods[method] || method;
+        }
+        
+        function simulateWithdrawProcess(amount, method) {
+            const steps = [
+                {text: 'Validating request...', progress: 10},
+                {text: 'Checking balance...', progress: 25},
+                {text: 'Processing transaction...', progress: 50},
+                {text: 'Confirming with provider...', progress: 75},
+                {text: 'Finalizing...', progress: 90}
+            ];
+            
+            let currentStep = 0;
+            const modalProgress = document.getElementById('modal-progress');
+            const modalStatus = document.getElementById('modal-status');
+            
+            const processInterval = setInterval(() => {
+                if (currentStep < steps.length) {
+                    modalStatus.textContent = steps[currentStep].text;
+                    modalProgress.style.width = steps[currentStep].progress + '%';
+                    currentStep++;
+                } else {
+                    clearInterval(processInterval);
+                    completeWithdrawProcess(amount, method);
+                }
+            }, 600);
+        }
+        
+        function completeWithdrawProcess(amount, method) {
+            const modalProgress = document.getElementById('modal-progress');
+            const modalStatus = document.getElementById('modal-status');
+            const modalActionBtn = document.getElementById('modal-action-btn');
+            
+            // Randomize success/failure for demo (90% success rate)
+            const success = Math.random() > 0.1;
+            
+            if (success) {
+                modalProgress.style.width = '100%';
+                modalStatus.innerHTML = '<span style="color:var(--success)">Withdraw successful!</span>';
+                modalStatus.innerHTML += '<br><small>Funds will arrive in 2-24 hours (simulated)</small>';
+                
+                earnedPoints -= amount;
+                todayWithdrawals += amount;
+                
+                // Achievement check
+                if (!achievements.firstWithdraw) {
+                    achievements.firstWithdraw = true;
+                    setTimeout(() => {
+                        showAchievementNotification("First Withdraw!", "You've made your first withdraw!");
+                    }, 1000);
+                }
+                
+                if (amount >= 10 && !achievements.bigWithdraw) {
+                    achievements.bigWithdraw = true;
+                    setTimeout(() => {
+                        showAchievementNotification("Big Spender!", "You've made a large withdraw!");
+                    }, 1500);
+                }
+                
+                updateUI();
+                addWithdrawHistory(amount, method, true);
+                
+                modalActionBtn.style.display = 'inline-block';
+                modalActionBtn.textContent = 'Great!';
+                modalActionBtn.onclick = closeModal;
+            } else {
+                modalProgress.style.width = '100%';
+                modalStatus.innerHTML = '<span style="color:var(--danger)">Withdraw failed!</span>';
+                modalStatus.innerHTML += '<br><small>Simulated network error. Please try again.</small>';
+                
+                addWithdrawHistory(amount, method, false);
+                
+                modalActionBtn.style.display = 'inline-block';
+                modalActionBtn.textContent = 'Try Again';
+                modalActionBtn.onclick = closeModal;
+            }
+            
+            localStorage.setItem('achievements', JSON.stringify(achievements));
+        }
+
+        function addWithdrawHistory(amount, method, success){
+            const now = new Date();
+            const time = now.toLocaleTimeString();
+            const date = now.toLocaleDateString();
+            
+            // Remove placeholder if exists
+            if (withdrawHistoryEl.innerHTML.includes('No withdrawals yet')) {
+                withdrawHistoryEl.innerHTML = '';
+            }
+            
+            let itm = document.createElement('div'); 
+            itm.className = 'history-item';
+            itm.innerHTML = `
+                <div><strong>${date} ${time}</strong></div>
+                <div>Withdraw ₨ ${amount.toFixed(2)} via ${getMethodName(method)}</div>
+                <div class="meta" style="color:${success ? 'var(--success)' : 'var(--danger)'}">
+                    ${success ? 'Completed successfully' : 'Failed - Try again'}
+                </div>
+            `;
+            withdrawHistoryEl.prepend(itm);
+            truncateList(withdrawHistoryEl, 15);
+            localStorage.setItem('withdrawHistory', withdrawHistoryEl.innerHTML);
+        }
+
+        // Modal helpers
+        function openModal(title, msg){ 
+            document.getElementById('modal-title').textContent = title; 
+            document.getElementById('modal-msg').textContent = msg; 
+            document.getElementById('modal-progress').style.width = '0%';
+            document.getElementById('modal-status').textContent = 'Initializing...';
+            document.getElementById('modal-action-btn').style.display = 'none';
+            document.getElementById('modal-backdrop').style.display='flex'; 
+        }
+        
+        function closeModal(){ 
+            document.getElementById('modal-backdrop').style.display='none'; 
+        }
+        
+        function showStatsModal() {
+            const totalTime = Math.floor((new Date() - sessionStartTime) / 1000);
+            const minutes = Math.floor(totalTime / 60);
+            const seconds = totalTime % 60;
+            
+            openModal('Your Statistics', 'Here are your current stats:');
+            document.getElementById('modal-body').innerHTML = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+                    <div class="stat-card" style="padding: 10px;">
+                        <h3>Total Ads</h3>
+                        <div class="value">${watchedAdsCount}</div>
+                    </div>
+                    <div class="stat-card" style="padding: 10px;">
+                        <h3>Total Points</h3>
+                        <div class="value">${earnedPoints.toFixed(2)}</div>
+                    </div>
+                    <div class="stat-card" style="padding: 10px;">
+                        <h3>Session Time</h3>
+                        <div class="value">${minutes}:${seconds.toString().padStart(2, '0')}</div>
+                    </div>
+                    <div class="stat-card" style="padding: 10px;">
+                        <h3>User Tier</h3>
+                        <div class="value">${userTierEl.textContent}</div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; font-size: 14px; color: var(--muted);">
+                    <p>Next bonus in: ${ADS_FOR_BONUS - (watchedAdsCount % ADS_FOR_BONUS)} ads</p>
+                    <p>Today's withdrawals: ₨ ${todayWithdrawals.toFixed(2)} / ${DAILY_WITHDRAW_LIMIT.toFixed(2)}</p>
+                </div>
+            `;
+            document.getElementById('modal-action-btn').style.display = 'inline-block';
+            document.getElementById('modal-action-btn').textContent = 'Close';
+            document.getElementById('modal-action-btn').onclick = closeModal;
+        }
+
+        // Reset local data
+        function resetData(){ 
+            if(confirm('Are you sure you want to clear all saved data? This cannot be undone.')){
+                localStorage.removeItem('watchedAdsCount');
+                localStorage.removeItem('earnedPoints');
+                localStorage.removeItem('rewardHistory');
+                localStorage.removeItem('withdrawHistory');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('todayWithdrawals');
+                localStorage.removeItem('achievements');
+                
+                watchedAdsCount = 0;
+                earnedPoints = 0;
+                todayWithdrawals = 0;
+                achievements = {
+                    firstAd: false,
+                    tenAds: false,
+                    fiftyAds: false,
+                    hundredAds: false,
+                    firstWithdraw: false,
+                    bigWithdraw: false
+                };
+                
+                rewardHistoryEl.innerHTML = '<div class="history-item">No rewards yet. Watch your first ad!</div>';
+                withdrawHistoryEl.innerHTML = '<div class="history-item">No withdrawals yet.</div>';
+                
+                stopAutoAds();
+                updateUI();
+                updateAchievements();
+                updateUserTier();
+                
+                showAdNotification('All data has been reset');
+            }
+        }
+
+        // Initialize the app
+        window.onload = initApp;
+
+        // Add CSS animations
+        const style = document.createElement('style'); 
+        style.textContent = `
+            @keyframes spin { to { transform: rotate(360deg); } }
+            @keyframes pulse { 
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+            .pulse { animation: pulse 0.5s ease; }
+        `; 
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
